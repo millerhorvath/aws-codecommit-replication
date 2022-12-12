@@ -56,6 +56,7 @@ jobs:
           REMOTE_BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
           LOCAL_BRANCH_NAME: ${{ needs.environment_check.outputs.local_branch }}
         run: |
+          echo "Configure SSH"
           mkdir -p $SSH_LOCAL_PATH/
           echo "$SSH_DEPLOY_KEY" > $SSH_LOCAL_PATH/$SSH_KEY_FILE
           chmod 600 $SSH_LOCAL_PATH/$SSH_KEY_FILE
@@ -65,5 +66,7 @@ jobs:
             User $SSH_KEY_ID
             IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
           END
+          echo "Add remote"
           git remote add codecommit $CODECOMMIT_REPO
+          echo "Push code"
           git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
