@@ -69,6 +69,7 @@ jobs:
 
           echo "### Add host in ssh know_hosts"
           ssh-keyscan -t rsa $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
+          chmod 600 $SSH_LOCAL_PATH/known_hosts
           cat $SSH_LOCAL_PATH/known_hosts
           
           echo "### Test ssh"
