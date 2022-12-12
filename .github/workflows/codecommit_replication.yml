@@ -48,7 +48,7 @@ jobs:
       - name: Configure SSH and push to destination repository
         env:
           SSH_LOCAL_PATH: ~/.ssh
-          SSH_KEY_FILE: id_rsa
+          SSH_KEY_FILE: codecommit_rsa
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
           CODECOMMIT_HOST: ${{ secrets.CODECOMMIT_HOST }}
           SSH_KEY_ID: ${{ secrets.SSH_KEY_ID }}
@@ -68,7 +68,7 @@ jobs:
           END
 
           echo "### Add host in ssh know_hosts"
-          ssh-keyscan -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
+          ssh-keyscan $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
           chmod 600 $SSH_LOCAL_PATH/known_hosts
           cat $SSH_LOCAL_PATH/known_hosts
           
