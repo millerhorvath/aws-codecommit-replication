@@ -42,10 +42,20 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Configure SSH and push to destination repository
+        env:
+          SSH_LOCAL_PATH: ~/.ssh/
+          SSH_KEY_FILE: id_rsa
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+          CODECOMMIT_HOST: ${{ secrets.CODECOMMIT_HOST }}
+          SSH_KEY_ID: ${{ secrets.SSH_KEY_ID }}
+          CODECOMMIT_REPO: ${{ secrets.CODECOMMIT_REPO }}
+          BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
         run: |
-          echo "Host ${{ secrets.CODECOMMIT_HOST }}" > ~/.ssh/config
-          echo "User ${{ secrets.SSH_KEY_ID }}" >> ~/.ssh/config
-          git remote add codecommit ${{ secrets.CODECOMMIT_REPO }}
-          git push -u codecommit ${{ secrets.BRANCH_NAME }}
+          mkdir -p $SSH_LOCAL_PATH
+          echo "$SSH_DEPLOY_KEY" > $SSH_LOCAL_PATH$SSH_KEY_FILE
+          chmod 600 $SSH_LOCAL_PATH$SSH_KEY_FILE
+          echo "Host $CODECOMMIT_HOST" > ~/.ssh/config
+          echo "User $SSH_KEY_ID" >> ~/.ssh/config
+          git remote add codecommit $CODECOMMIT_REPO
+          git push -u codecommit $BRANCH_NAME
