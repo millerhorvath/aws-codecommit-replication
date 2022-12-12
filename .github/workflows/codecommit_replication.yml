@@ -60,8 +60,6 @@ jobs:
           mkdir -p $SSH_LOCAL_PATH/
           echo "$SSH_DEPLOY_KEY" > $SSH_LOCAL_PATH/$SSH_KEY_FILE
           chmod 600 $SSH_LOCAL_PATH/$SSH_KEY_FILE
-          echo "## Check id_rsa"
-          cat $SSH_LOCAL_PATH/$SSH_KEY_FILE
           echo "#############################"
           cat >$SSH_LOCAL_PATH/config <<END
           Host $CODECOMMIT_HOST
@@ -75,7 +73,7 @@ jobs:
           # ssh-keyscan -t rsa -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
           # cat $SSH_LOCAL_PATH/known_hosts
           echo "### Test ssh - ssh $CODECOMMIT_HOST"
-          ssh $CODECOMMIT_HOST
+          echo $(ssh $CODECOMMIT_HOST)
           echo "### Add remote"
           git remote add codecommit $CODECOMMIT_REPO
           echo "### Push code"
