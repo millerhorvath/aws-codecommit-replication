@@ -67,7 +67,7 @@ jobs:
             IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
           END
           echo "Add host in ssh know_hosts"
-          ssh-keyscan -t rsa $CODECOMMIT_HOST >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa $CODECOMMIT_HOST > ~/.ssh/known_hosts
           echo "Add remote"
           git remote add codecommit $CODECOMMIT_REPO
           echo "Push code"
