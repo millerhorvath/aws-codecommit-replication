@@ -60,23 +60,18 @@ jobs:
           mkdir -p $SSH_LOCAL_PATH/
           echo "$SSH_DEPLOY_KEY" > $SSH_LOCAL_PATH/$SSH_KEY_FILE
           chmod 600 $SSH_LOCAL_PATH/$SSH_KEY_FILE
-          # cat >>$SSH_LOCAL_PATH/config <<END
-          # Host codecommit
-          #   HostName $CODECOMMIT_HOST
-          #   User $SSH_KEY_ID
-          #   IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
-          # END
-          echo "### cat config file"
           cat >>$SSH_LOCAL_PATH/config <<END
           Host $CODECOMMIT_HOST
-          User $SSH_KEY_ID
-          IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
+            HostName $CODECOMMIT_HOST
+            User $SSH_KEY_ID
+            IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
           END
           ls $SSH_LOCAL_PATH/
+          echo "#####"
           cat $SSH_LOCAL_PATH/config
-          echo "### Add host in ssh know_hosts"
-          ssh-keyscan -t rsa -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
-          cat $SSH_LOCAL_PATH/known_hosts
+          # echo "### Add host in ssh know_hosts"
+          # ssh-keyscan -t rsa -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
+          # cat $SSH_LOCAL_PATH/known_hosts
           echo "### Add remote"
           git remote add codecommit $CODECOMMIT_REPO
           echo "### Push code"
