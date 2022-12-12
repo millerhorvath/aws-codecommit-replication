@@ -68,12 +68,11 @@ jobs:
           END
 
           echo "### Add host in ssh know_hosts"
-          ssh-keygen -R $CODECOMMIT_HOST
           ssh-keyscan -t rsa $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
           cat $SSH_LOCAL_PATH/known_hosts
           
           echo "### Test ssh"
-          echo $(ssh $CODECOMMIT_HOST)
+          echo $(ssh $SSH_KEY_ID@$CODECOMMIT_HOST)
           
           echo "### Add remote"
           git remote add codecommit $CODECOMMIT_REPO
