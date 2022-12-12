@@ -13,21 +13,44 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  environment_check:
+    runs-on: ubuntu-latest
+    steps:    
+      - name: Set environment based on branch
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/prd" ]; then
+            echo "::set-output name=env_name::Production"
+          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::Development"
+      
+      - name: Display environment check
+        run: echo "Using ${{ steps.branch_check.outputs.env_name }} for branch ${{ github.ref }}"
+
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+
+  code_replication:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    needs: [environment_check]
+    environment:
+      name: ${{ needs.environment_check.outputs.env_name }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Run a multi-line script
-        run: echo $CODECOMMIT_REPO
+      - name: Test display environment variables
+        run: |
+          echo "$CODECOMMIT_REPO"
+          echo "$CODECOMMIT_HOST"
+          echo "$BRANCH_NAME"
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
+          echo "Host $CODECOMMIT_HOST" >> ~/.ssh/config
+          echo "User $SSH_KEY_ID" >> ~/.ssh/config
           git remote add --mirror codecommit $CODECOMMIT_REPO
           git push -u codecommit $BRANCH_NAME
