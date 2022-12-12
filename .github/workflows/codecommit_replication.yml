@@ -62,12 +62,11 @@ jobs:
           chmod 600 $SSH_LOCAL_PATH/$SSH_KEY_FILE
           cat >$SSH_LOCAL_PATH/config <<END
           Host $CODECOMMIT_HOST
-            HostName $CODECOMMIT_HOST
             User $SSH_KEY_ID
             IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
             StrictHostKeyChecking no
           END
-          # echo "### cat config file"
+          echo "### cat config file"
           cat $SSH_LOCAL_PATH/config
           # echo "### Add host in ssh know_hosts"
           # ssh-keyscan -t rsa -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
