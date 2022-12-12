@@ -22,8 +22,10 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/prd" ]; then
             echo "env_name=Production"  >> $GITHUB_OUTPUT
+            echo "local_branch=prd"  >> $GITHUB_OUTPUT
           elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
             echo "env_name=Development" >> $GITHUB_OUTPUT
+            echo "local_branch=dev" >> $GITHUB_OUTPUT
           fi
       
       - name: Display environment check
@@ -31,6 +33,7 @@ jobs:
 
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
+      local_branch: ${{ steps.branch_check.outputs.local_branch }}
 
   code_replication:
     # The type of runner that the job will run on
@@ -50,7 +53,8 @@ jobs:
           CODECOMMIT_HOST: ${{ secrets.CODECOMMIT_HOST }}
           SSH_KEY_ID: ${{ secrets.SSH_KEY_ID }}
           CODECOMMIT_REPO: ${{ secrets.CODECOMMIT_REPO }}
-          BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
+          REMOTE_BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
+          LOCAL_BRANCH_NAME: ${{ needs.environment_check.outputs.local_branch }}
         run: |
           mkdir -p $SSH_LOCAL_PATH/
           echo "$SSH_DEPLOY_KEY" > $SSH_LOCAL_PATH/$SSH_KEY_FILE
@@ -62,4 +66,4 @@ jobs:
             IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
           END
           git remote add codecommit $CODECOMMIT_REPO
-          git push -u codecommit $BRANCH_NAME
+          git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
