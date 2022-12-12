@@ -23,7 +23,7 @@ jobs:
           if [ "${{ github.ref }}" = "refs/heads/prd" ]; then
             echo "env_name=Production"  >> $GITHUB_OUTPUT
           elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-            echo "env_name::Development" >> $GITHUB_OUTPUT
+            echo "env_name=Development" >> $GITHUB_OUTPUT
           fi
       
       - name: Display environment check
