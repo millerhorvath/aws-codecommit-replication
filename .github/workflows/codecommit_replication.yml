@@ -24,6 +24,7 @@ jobs:
             echo "::set-output name=env_name::Production"
           elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
             echo "::set-output name=env_name::Development"
+          fi
       
       - name: Display environment check
         run: echo "Using ${{ steps.branch_check.outputs.env_name }} for branch ${{ github.ref }}"
