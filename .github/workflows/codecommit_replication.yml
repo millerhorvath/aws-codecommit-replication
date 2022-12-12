@@ -62,7 +62,7 @@ jobs:
           chmod 600 $SSH_LOCAL_PATH/$SSH_KEY_FILE
           echo "## Check id_rsa"
           cat $SSH_LOCAL_PATH/$SSH_KEY_FILE
-          echo "#############################"
+          echo "##############################"
           cat >$SSH_LOCAL_PATH/config <<END
           Host $CODECOMMIT_HOST
             User $SSH_KEY_ID
