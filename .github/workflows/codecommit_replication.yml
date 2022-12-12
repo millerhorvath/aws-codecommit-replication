@@ -65,12 +65,16 @@ jobs:
             User $SSH_KEY_ID
             IdentityFile $SSH_LOCAL_PATH/$SSH_KEY_FILE
           END
+
           echo "### Add host in ssh know_hosts"
           ssh-keyscan -t rsa -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
           cat $SSH_LOCAL_PATH/known_hosts
+          
           echo "### Test ssh"
           echo $(ssh $CODECOMMIT_HOST)
+          
           echo "### Add remote"
           git remote add codecommit $CODECOMMIT_REPO
-          echo "### Push code"
+          
+          echo "### Push code - git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME"
           git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
