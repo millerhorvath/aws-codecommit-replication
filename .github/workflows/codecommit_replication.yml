@@ -48,6 +48,7 @@ jobs:
           CODECOMMIT_HOST: ${{ secrets.CODECOMMIT_HOST }}
           SSH_KEY_ID: ${{ secrets.SSH_KEY_ID }}
           CODECOMMIT_REPO: ${{ secrets.CODECOMMIT_REPO }}
+          REMOTE_BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
           LOCAL_BRANCH_NAME: ${{ needs.environment_check.outputs.local_branch }}
         run: |
           echo "### Configure SSH"
@@ -84,5 +85,5 @@ jobs:
           echo "### Add remote"
           git remote add codecommit $CODECOMMIT_REPO
           
-          echo "### Push code - git push -u codecommit $LOCAL_BRANCH_NAME"
-          git push -u codecommit $LOCAL_BRANCH_NAME
+          echo "### Push code - git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME"
+          git push -f -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
