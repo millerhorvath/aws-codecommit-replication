@@ -6,12 +6,12 @@ pipelines:
           name: Update Development Stage CodeCommit Repo
           deployment: Development
           script:
-            - chmod +x codecommit-push.sh  # Make codecommit-push.sh executable
-            - ./codecommit-push.sh  # Execute codecommit-push.sh script
+            - chmod +x bitbucket-push-to-codecommit.sh  # Make bitbucket-push-to-codecommit.sh executable
+            - ./bitbucket-push-to-codecommit.sh  # Execute bitbucket-push-to-codecommit.sh script
     prd:
       - step:
           name: Update Production Stage CodeCommit Repo
           deployment: Production
           script:
-            - chmod +x codecommit-push.sh  # Make codecommit-push.sh executable
-            - ./codecommit-push.sh  # Execute codecommit-push.sh script
+            - chmod +x bitbucket-push-to-codecommit.sh  # Make bitbucket-push-to-codecommit.sh executable
+            - ./bitbucket-push-to-codecommit.sh  # Execute bitbucket-push-to-codecommit.sh script
