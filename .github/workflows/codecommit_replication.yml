@@ -56,11 +56,7 @@ jobs:
           REMOTE_BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
           LOCAL_BRANCH_NAME: ${{ needs.environment_check.outputs.local_branch }}
         run: |
-          # cat /etc/ssh/ssh_config
-          # echo "########################"
-          # ls -la /etc/ssh/
-
-          # echo "### Configure SSH"
+          echo "### Configure SSH"
           
           echo "# Create default .ssh path, if not exists"
           mkdir -p ~/.ssh
@@ -69,7 +65,13 @@ jobs:
           
           echo "# Create SSH private key"
           echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa
+          echo "# Set ~/.ssh/id_rsa permissions"
           chmod 600 ~/.ssh/id_rsa
+
+          echo "# Add host in ssh know_hosts"
+          ssh-keyscan -H $CODECOMMIT_HOST > ~/.ssh/known_hosts
+          echo "# Set ~/.ssh/known_hosts permissions"
+          chmod 600 ~/.ssh/known_hosts
 
           # echo "# Set-up git"
           # git config --global user.name "${INPUT_GIT_USERNAME}"
@@ -82,21 +84,11 @@ jobs:
           Host $CODECOMMIT_HOST
               User $SSH_KEY_ID
               IdentityFile ~/.ssh/id_rsa
-              StrictHostKeyChecking no
           END
-          cat ~/.ssh/config
 
           echo "# Listing created files"
           ls -ald ~/.ssh
-          ls -al ~/.ssh
-          
-          echo "# Cat all created files"
-          cat ~/.ssh/*
-
-          # echo "### Add host in ssh know_hosts"
-          # ssh-keyscan $CODECOMMIT_HOST > ~/.ssh/known_hosts
-          # chmod 600 ~/.ssh/known_hosts
-          # cat ~/.ssh/known_hosts
+          ls -al ~/.ssh          
           
           echo "### Test ssh"
           echo $(ssh $SSH_KEY_ID@$CODECOMMIT_HOST)
