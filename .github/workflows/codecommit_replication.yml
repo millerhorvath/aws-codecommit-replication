@@ -44,9 +44,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      # - uses: webfactory/ssh-agent@v0.7.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
       - name: Configure SSH and push to destination repository
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
@@ -73,12 +70,6 @@ jobs:
           echo "# Set ~/.ssh/known_hosts permissions"
           chmod 600 ~/.ssh/known_hosts
 
-          # echo "# Set-up git"
-          # git config --global user.name "${INPUT_GIT_USERNAME}"
-          # git config --global user.email "${INPUT_GIT_EMAIL}"
-          # ssh-keyscan -H $CODECOMMIT_HOST > ~/.ssh/known_hosts
-          # GIT_SSH='ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts'
-          
           echo "# create SSH config file"
           cat >~/.ssh/config <<END
           Host $CODECOMMIT_HOST
@@ -88,15 +79,13 @@ jobs:
 
           echo "# Listing created files"
           ls -ald ~/.ssh
-          ls -al ~/.ssh          
+          ls -al ~/.ssh
           
           echo "### Test ssh"
           echo $(ssh $SSH_KEY_ID@$CODECOMMIT_HOST)
-          # echo $($GIT_SSH $SSH_KEY_ID@$CODECOMMIT_HOST)
           
           echo "### Add remote"
           git remote add codecommit $CODECOMMIT_REPO
           
           echo "### Push code - git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME"
           git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
-          # GIT_SSH_COMMAND=$GIT_SSH git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
