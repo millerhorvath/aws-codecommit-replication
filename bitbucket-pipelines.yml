@@ -1,13 +1,13 @@
 image: 'atlassian/default-image:2'
 pipelines:
   branches:
-    # dev:
-    #   - step:
-    #       name: Update Development Stage CodeCommit Repo
-    #       deployment: Development
-    #       script:
-    #         - chmod +x codecommit-push.sh  # Make codecommit-push.sh executable
-    #         - ./codecommit-push.sh  # Execute codecommit-push.sh script
+    dev:
+      - step:
+          name: Update Development Stage CodeCommit Repo
+          deployment: Development
+          script:
+            - chmod +x codecommit-push.sh  # Make codecommit-push.sh executable
+            - ./codecommit-push.sh  # Execute codecommit-push.sh script
     prd:
       - step:
           name: Update Production Stage CodeCommit Repo

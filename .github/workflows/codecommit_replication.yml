@@ -48,7 +48,7 @@ jobs:
           CODECOMMIT_HOST: ${{ secrets.CODECOMMIT_HOST }}
           SSH_KEY_ID: ${{ secrets.SSH_KEY_ID }}
           CODECOMMIT_REPO: ${{ secrets.CODECOMMIT_REPO }}
-          REMOTE_BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
+          REMOTE_BRANCH_NAME: ${{ secrets.REMOTE_BRANCH_NAME }}
           LOCAL_BRANCH_NAME: ${{ needs.environment_check.outputs.local_branch }}
         run: |
           chmod +x github-push-to-codecommit.sh  # Make codecommit-push.sh executable
