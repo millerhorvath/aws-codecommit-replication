@@ -86,5 +86,5 @@ jobs:
           git remote add codecommit $CODECOMMIT_REPO
           
           echo "### Push code - git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME"
+          git pull codecommit $REMOTE_BRANCH_NAME
           git push -u codecommit $LOCAL_BRANCH_NAME:$REMOTE_BRANCH_NAME
-
