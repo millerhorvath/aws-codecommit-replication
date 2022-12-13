@@ -58,7 +58,6 @@ jobs:
           REMOTE_BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
           LOCAL_BRANCH_NAME: ${{ needs.environment_check.outputs.local_branch }}
         run: |
-          ls $SSH_LOCAL_PATH/
           echo "### Configure SSH"
           mkdir -p $SSH_LOCAL_PATH/
           echo "$SSH_DEPLOY_KEY" > $SSH_LOCAL_PATH/$SSH_KEY_FILE
