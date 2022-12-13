@@ -77,7 +77,7 @@ jobs:
           git config --global user.name "${INPUT_GIT_USERNAME}"
           git config --global user.email "${INPUT_GIT_EMAIL}"
           ssh-keyscan -H $CODECOMMIT_HOST > $SSH_LOCAL_PATH/known_hosts
-          GIT_SSH="ssh -i "$SSH_LOCAL_PATH/$SSH_KEY_FILE" -o UserKnownHostsFile=$SSH_LOCAL_PATH/known_hosts"
+          GIT_SSH="ssh -i $SSH_LOCAL_PATH/$SSH_KEY_FILE -o UserKnownHostsFile=$SSH_LOCAL_PATH/known_hosts"
           
           # echo "# create SSH config file"
           # cat >$SSH_LOCAL_PATH/config <<END
@@ -90,6 +90,7 @@ jobs:
 
           echo "# Listing created files"
           ls -ald ~/.ssh
+          ls -ald $SSH_LOCAL_PATH
           ls -al $SSH_LOCAL_PATH
 
           # echo "### Add host in ssh know_hosts"
